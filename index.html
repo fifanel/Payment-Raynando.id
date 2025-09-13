@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NandoStore.id - Pembayaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2463, #1565c0);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5),
+                        0 0 40px rgba(0, 140, 255, 0.3),
+                        0 0 60px rgba(0, 140, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00b4ff;
+            box-shadow: 0 0 15px #00b4ff,
+                        0 0 30px #00b4ff;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px #00b4ff, 0 0 30px #00b4ff; }
+            50% { box-shadow: 0 0 20px #00b4ff, 0 0 40px #00b4ff, 0 0 60px #00b4ff; }
+            100% { box-shadow: 0 0 15px #00b4ff, 0 0 30px #00b4ff; }
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 180, 255, 0.8);
+            color: #ffffff;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .payment-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 10px rgba(0, 140, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            height: 10px;
+            background: linear-gradient(90deg, #00b4ff, #0062ff, #00b4ff);
+            border-radius: 5px;
+            animation: neonFlow 3s linear infinite;
+        }
+        
+        @keyframes neonFlow {
+            0% { background-position: -100px 0; }
+            100% { background-position: 100px 0; }
+        }
+        
+        .payment-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #4fc3f7;
+        }
+        
+        .payment-title i {
+            margin-right: 10px;
+            font-size: 24px;
+            text-shadow: 0 0 5px rgba(79, 195, 247, 0.8);
+        }
+        
+        .payment-info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            word-break: break-all;
+            border: 1px solid rgba(0, 180, 255, 0.3);
+        }
+        
+        .qris-code {
+            width: 100%;
+            max-width: 250px;
+            display: block;
+            margin: 15px auto;
+            border-radius: 10px;
+            border: 2px solid #00b4ff;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+        
+        .btn:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+        
+        .btn-telegram {
+            background: linear-gradient(135deg, #0088cc, #005580);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
+        }
+        
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+            color: white;
+            box-shadow: 0 0 10px rgba(156, 39, 176, 0.5);
+        }
+        
+        .btn-music {
+            background: linear-gradient(135deg, #ff4081, #c2185b);
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.8);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            background: rgba(0, 200, 83, 0.9);
+            color: white;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        0 0 10px rgba(0, 200, 83, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .music-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .neon-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 180, 255, 0.1);
+            box-shadow: 0 0 50px rgba(0, 180, 255, 0.2);
+            animation: float 15s infinite ease-in-out;
+            z-index: 0;
+        }
+        
+        .neon-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .neon-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 20px) rotate(5deg); }
+            50% { transform: translate(0, 30px) rotate(0deg); }
+            75% { transform: translate(-20px, 10px) rotate(-5deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="neon-circle"></div>
+    <div class="neon-circle"></div>
+    
+    <div class="container">
+        <div class="header">
+            <img src="https://files.catbox.moe/xexovd.jpg" alt="NandoStore.id" class="logo">
+            <h1>NandoStore.id</h1>
+            <p class="subtitle">Lakukan pembayaran menggunakan metode di bawah ini</p>
+        </div>
+        
+        <div class="payment-section">
+            <div class="payment-title">
+                <i class="fas fa-wallet"></i>
+                <span>Transfer DANA</span>
+            </div>
+            <div class="payment-info">
+                <p>No. DANA: <strong>0895325940870</strong></p>
+            </div>
+            <button class="btn btn-copy" onclick="copyToClipboard('0895325940870', 'Nomor DANA berhasil disalin!')">
+                <i class="fas fa-copy"></i> Salin Nomor DANA
+            </button>
+        </div>
+        
+        <div class="payment-section">
+            <div class="payment-title">
+                <i class="fas fa-qrcode"></i>
+                <span>QRIS</span>
+            </div>
+            <p>Scan kode QRIS berikut untuk pembayaran:</p>
+            <img src="https://files.catbox.moe/xzu29z.jpg" alt="QRIS NandoStore.id" class="qris-code">
+        </div>
+        
+        <div class="action-buttons">
+            <a href="https://t.me/Aryafortuna" target="_blank" class="btn btn-telegram">
+                <i class="fab fa-telegram"></i> Hubungi via Telegram
+            </a>
+            <a href="https://wa.me/6289532540870" target="_blank" class="btn btn-wa">
+                <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
+            </a>
+        </div>
+        
+        <div class="music-controls">
+            <button class="btn btn-music" onclick="toggleMusic()">
+                <i class="fas fa-music"></i> <span id="music-text">Putar Musik</span>
+            </button>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">Teks berhasil disalin!</div>
+    
+    <footer>
+        &copy; 2023 NandoStore.id - All rights reserved
+    </footer>
+
+    <!-- Audio element for background music -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/ctso1y.mp4" type="audio/mp4">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const musicText = document.getElementById('music-text');
+        let isMusicPlaying = false;
+        
+        function copyToClipboard(text, message) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            showNotification(message);
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                music.pause();
+                musicText.textContent = 'Putar Musik';
+            } else {
+                music.play();
+                musicText.textContent = 'Jeda Musik';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+        
+        // Efek ketik untuk judul
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
